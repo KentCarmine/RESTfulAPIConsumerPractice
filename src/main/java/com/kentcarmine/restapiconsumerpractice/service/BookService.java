@@ -18,6 +18,6 @@ public interface BookService {
     BookDto createNewBook(CreateOrUpdateBookDto createOrUpdateBookDto);
 
     BookDto deleteBookById(Long id);
-    
+
     BookDto updateBookWithId(Long id, CreateOrUpdateBookDto bookDto);
 }
