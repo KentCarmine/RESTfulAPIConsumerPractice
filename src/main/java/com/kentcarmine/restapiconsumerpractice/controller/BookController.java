@@ -3,15 +3,10 @@ package com.kentcarmine.restapiconsumerpractice.controller;
 
 import com.kentcarmine.restapiconsumerpractice.dto.BookDto;
 import com.kentcarmine.restapiconsumerpractice.dto.CreateOrUpdateBookDto;
-import com.kentcarmine.restapiconsumerpractice.exception.BookNotFoundException;
-import com.kentcarmine.restapiconsumerpractice.exception.InvalidBookInputException;
-import com.kentcarmine.restapiconsumerpractice.exception.UnknownException;
 import com.kentcarmine.restapiconsumerpractice.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -53,6 +48,7 @@ public class BookController {
 
     // Create book
     @PostMapping("/new")
+    @ResponseStatus(HttpStatus.CREATED)
     public BookDto createNewBook(@Valid @RequestBody CreateOrUpdateBookDto newBook) {
         return bookService.createNewBook(newBook);
     }
@@ -69,21 +65,4 @@ public class BookController {
         return bookService.deleteBookById(id);
     }
 
-//    @ExceptionHandler(BookNotFoundException.class)
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException bnfe) {
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bnfe.getMessage());
-//    }
-//
-//    @ExceptionHandler(InvalidBookInputException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ResponseEntity<String> handleInvalidBookInputException(InvalidBookInputException e) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//    }
-//
-//    @ExceptionHandler(UnknownException.class)
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public ResponseEntity<String> handleUnknownException(UnknownException e) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-//    }
 }

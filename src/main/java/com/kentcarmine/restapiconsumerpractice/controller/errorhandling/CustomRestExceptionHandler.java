@@ -2,6 +2,7 @@ package com.kentcarmine.restapiconsumerpractice.controller.errorhandling;
 
 import com.kentcarmine.restapiconsumerpractice.dto.error.ApiError;
 import com.kentcarmine.restapiconsumerpractice.exception.BookNotFoundException;
+import com.kentcarmine.restapiconsumerpractice.exception.UnknownException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,6 +106,14 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         ApiError apiError =
                 new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), errorStr);
+        return new ResponseEntity<Object>(
+                apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler({UnknownException.class, Exception.class })
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        ApiError apiError = new ApiError(
+                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
         return new ResponseEntity<Object>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
