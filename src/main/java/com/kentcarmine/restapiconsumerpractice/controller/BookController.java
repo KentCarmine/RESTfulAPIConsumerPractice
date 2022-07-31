@@ -52,8 +52,7 @@ public class BookController {
     // Create book
     @PostMapping("/new")
     public BookDto createNewBook(@RequestBody CreateOrUpdateBookDto newBook) {
-        // TODO: Fill in
-        return null;
+        return bookService.createNewBook(newBook);
     }
 
     // Update book

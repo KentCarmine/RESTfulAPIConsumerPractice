@@ -94,8 +94,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto createNewBook(CreateOrUpdateBookDto createOrUpdateBookDto) {
-        // TODO: Fill in
-        return null;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<BookDto> response = restTemplate.postForEntity(apiCreateUrl, createOrUpdateBookDto,
+                BookDto.class);
+        return response.getBody();
     }
 
     @Override
