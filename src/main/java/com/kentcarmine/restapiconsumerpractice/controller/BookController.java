@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -52,13 +53,13 @@ public class BookController {
 
     // Create book
     @PostMapping("/new")
-    public BookDto createNewBook(@RequestBody CreateOrUpdateBookDto newBook) {
+    public BookDto createNewBook(@Valid @RequestBody CreateOrUpdateBookDto newBook) {
         return bookService.createNewBook(newBook);
     }
 
     // Update book
     @PutMapping("/{id}")
-    public BookDto updateBook(@PathVariable Long id, @RequestBody CreateOrUpdateBookDto updateBook) {
+    public BookDto updateBook(@PathVariable Long id, @Valid @RequestBody CreateOrUpdateBookDto updateBook) {
         return bookService.updateBookWithId(id, updateBook);
     }
 
@@ -68,21 +69,21 @@ public class BookController {
         return bookService.deleteBookById(id);
     }
 
-    @ExceptionHandler(BookNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException bnfe) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bnfe.getMessage());
-    }
-
-    @ExceptionHandler(InvalidBookInputException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleInvalidBookInputException(InvalidBookInputException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
-    @ExceptionHandler(UnknownException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<String> handleUnknownException(UnknownException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
+//    @ExceptionHandler(BookNotFoundException.class)
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException bnfe) {
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bnfe.getMessage());
+//    }
+//
+//    @ExceptionHandler(InvalidBookInputException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ResponseEntity<String> handleInvalidBookInputException(InvalidBookInputException e) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//    }
+//
+//    @ExceptionHandler(UnknownException.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ResponseEntity<String> handleUnknownException(UnknownException e) {
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+//    }
 }

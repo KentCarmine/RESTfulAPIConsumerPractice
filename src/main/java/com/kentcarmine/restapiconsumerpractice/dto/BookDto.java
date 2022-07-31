@@ -1,9 +1,21 @@
 package com.kentcarmine.restapiconsumerpractice.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 public class BookDto {
 
+    @NotNull
+    @Positive
     private Long id;
+
+    @NotNull
+    @NotBlank(message = "title cannot be blank")
     private String title;
+
+    @NotNull
+    @NotBlank(message = "author cannot be blank")
     private String author;
 
     public BookDto() {

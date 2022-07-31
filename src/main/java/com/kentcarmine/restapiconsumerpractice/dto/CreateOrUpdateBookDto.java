@@ -1,8 +1,16 @@
 package com.kentcarmine.restapiconsumerpractice.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CreateOrUpdateBookDto {
 
+    @NotNull
+    @NotBlank(message = "title cannot be blank")
     private String title;
+
+    @NotNull
+    @NotBlank(message = "author cannot be blank")
     private String author;
 
     public CreateOrUpdateBookDto() {
@@ -33,7 +41,7 @@ public class CreateOrUpdateBookDto {
 
     @Override
     public String toString() {
-        return "CreateOrUpdateBookDto{" +
+        return "CreateBookDto{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 '}';
