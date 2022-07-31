@@ -58,15 +58,13 @@ public class BookController {
     // Update book
     @PutMapping("/{id}")
     public BookDto updateBook(@PathVariable Long id, @RequestBody CreateOrUpdateBookDto updateBook) {
-        System.out.println("### Controller.updateBook called with id = " + id + " and arg: "+ updateBook);
         return bookService.updateBookWithId(id, updateBook);
     }
 
     // Delete book by id
     @DeleteMapping("/{id}")
     public BookDto deleteBook(@PathVariable Long id) {
-        // TODO: Fill in
-        return null;
+        return bookService.deleteBookById(id);
     }
 
     @ExceptionHandler(BookNotFoundException.class)

@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.ConnectException;
-import java.net.URI;
 import java.util.Set;
 
 @Service
@@ -121,13 +119,20 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto deleteBookById(Long id) {
-        // TODO: Fill in
-        return null;
-    }
+        RestTemplate restTemplate = new RestTemplate();
+        String url = apiDeleteUrl + id;
 
-//    @Override
-//    public boolean isBookWithIdExists(Long id) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<Boolean
-//    }
+        ResponseEntity<BookDto> response;
+        try {
+            response = restTemplate.exchange(url, HttpMethod.DELETE, null, BookDto.class);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new BookNotFoundException(id);
+            } else {
+                throw e;
+            }
+        }
+
+        return response.getBody();
+    }
 }
