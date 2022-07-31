@@ -57,9 +57,9 @@ public class BookController {
 
     // Update book
     @PutMapping("/{id}")
-    public BookDto updateBook(@PathVariable Long id, @RequestBody(required = false) CreateOrUpdateBookDto updateBook) {
-        // TODO: Fill in
-        return null;
+    public BookDto updateBook(@PathVariable Long id, @RequestBody CreateOrUpdateBookDto updateBook) {
+        System.out.println("### Controller.updateBook called with id = " + id + " and arg: "+ updateBook);
+        return bookService.updateBookWithId(id, updateBook);
     }
 
     // Delete book by id

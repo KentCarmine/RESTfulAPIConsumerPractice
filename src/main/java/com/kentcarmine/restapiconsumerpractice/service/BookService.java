@@ -19,7 +19,7 @@ public interface BookService {
 
     BookDto deleteBookById(Long id);
 
-    boolean isBookWithIdExists(Long id);
+//    boolean isBookWithIdExists(Long id);
 
     BookDto updateBookWithId(Long id, CreateOrUpdateBookDto bookDto);
 }

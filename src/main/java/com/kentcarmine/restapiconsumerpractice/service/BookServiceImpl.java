@@ -6,14 +6,13 @@ import com.kentcarmine.restapiconsumerpractice.exception.BookNotFoundException;
 import com.kentcarmine.restapiconsumerpractice.exception.UnknownException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.ConnectException;
+import java.net.URI;
 import java.util.Set;
 
 @Service
@@ -102,8 +101,22 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto updateBookWithId(Long id, CreateOrUpdateBookDto bookDto) {
-        // TODO: Fill in
-        return null;
+        RestTemplate restTemplate = new RestTemplate();
+        String url = apiUpdateUrl + id;
+
+        ResponseEntity<BookDto> response;
+        try {
+            response = restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity(bookDto),
+                    BookDto.class);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new BookNotFoundException(id);
+            } else {
+                throw e;
+            }
+        }
+
+        return response.getBody();
     }
 
     @Override
@@ -112,9 +125,9 @@ public class BookServiceImpl implements BookService {
         return null;
     }
 
-    @Override
-    public boolean isBookWithIdExists(Long id) {
-        // TODO: Fill in
-        return false;
-    }
+//    @Override
+//    public boolean isBookWithIdExists(Long id) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<Boolean
+//    }
 }
