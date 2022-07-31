@@ -5,6 +5,7 @@ import com.kentcarmine.restapiconsumerpractice.dto.BookDto;
 import com.kentcarmine.restapiconsumerpractice.dto.CreateOrUpdateBookDto;
 import com.kentcarmine.restapiconsumerpractice.exception.BookNotFoundException;
 import com.kentcarmine.restapiconsumerpractice.exception.InvalidBookInputException;
+import com.kentcarmine.restapiconsumerpractice.exception.UnknownException;
 import com.kentcarmine.restapiconsumerpractice.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,29 +28,25 @@ public class BookController {
     // List one book by id
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
-        // TODO: Fill in
-        return null;
+        return bookService.getBookById(id);
     }
 
     // List all books
     @GetMapping({"", "/"})
     public Set<BookDto> getAllBooks() {
-        // TODO: Fill in
-        return null;
+        return bookService.getAllBooks();
     }
 
     // List all books by title
     @GetMapping("/title/{bookTitle}")
     public Set<BookDto> getAllBooksByTitle(@PathVariable String bookTitle) {
-        // TODO: Fill in
-        return null;
+        return bookService.getAllBooksByTitle(bookTitle);
     }
 
     // List all books by author
     @GetMapping("/author/{bookAuthor}")
     public Set<BookDto> getAllBooksByAuthor(@PathVariable String bookAuthor) {
-        // TODO: Fill in
-        return null;
+        return bookService.getAllBooksByAuthor(bookAuthor);
     }
 
     // Create book
@@ -83,5 +80,11 @@ public class BookController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleInvalidBookInputException(InvalidBookInputException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UnknownException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> handleUnknownException(UnknownException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }
