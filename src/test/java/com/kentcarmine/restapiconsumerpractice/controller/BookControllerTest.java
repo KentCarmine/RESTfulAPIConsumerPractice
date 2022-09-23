@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.validation.ConstraintViolationException;
 import java.awt.print.Book;
 import java.net.ConnectException;
 import java.util.HashSet;
@@ -44,7 +45,7 @@ class BookControllerTest {
 
     @InjectMocks
     BookController bookController;
-    
+
     BookDto bookDto1;
     BookDto bookDto2;
     Set<BookDto> bookDtoSet;
@@ -192,6 +193,8 @@ class BookControllerTest {
 
     @Test
     void createNewBook_invalidBook() throws Exception {
+        when(bookService.createNewBook(any()))
+                .thenThrow(new ConstraintViolationException("test constraint violation ex", Set.of()));
         CreateOrUpdateBookDto newBook = new CreateOrUpdateBookDto(null, "");
 
         mockMvc.perform(post("/proxy/api/v1/books/new")
@@ -200,7 +203,7 @@ class BookControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
-        verify(bookService, times(0)).createNewBook(any());
+        verify(bookService, times(1)).createNewBook(any());
     }
 
     @Test
@@ -266,6 +269,8 @@ class BookControllerTest {
 
     @Test
     void updateBook_invalidBook() throws Exception {
+        when(bookService.updateBookWithId(anyLong(), any()))
+                .thenThrow(new ConstraintViolationException("test constraint violation ex", Set.of()));
         CreateOrUpdateBookDto newBook = new CreateOrUpdateBookDto("", null);
 
         MvcResult result =  mockMvc.perform(put("/proxy/api/v1/books/1")
@@ -274,7 +279,7 @@ class BookControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest()).andReturn();
 
-        verify(bookService, times(0)).updateBookWithId(anyLong(), any());
+        verify(bookService, times(1)).updateBookWithId(anyLong(), any());
     }
 
     @Test

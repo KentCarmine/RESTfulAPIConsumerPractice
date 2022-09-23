@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.util.Set;
 
+@Validated
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -90,7 +93,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto createNewBook(CreateOrUpdateBookDto createOrUpdateBookDto) {
+    public BookDto createNewBook(@Valid CreateOrUpdateBookDto createOrUpdateBookDto) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<BookDto> response = restTemplate.postForEntity(apiCreateUrl, createOrUpdateBookDto,
                 BookDto.class);
@@ -98,7 +101,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto updateBookWithId(Long id, CreateOrUpdateBookDto bookDto) {
+    public BookDto updateBookWithId(Long id, @Valid CreateOrUpdateBookDto bookDto) {
         RestTemplate restTemplate = new RestTemplate();
         String url = apiUpdateUrl + id;
 

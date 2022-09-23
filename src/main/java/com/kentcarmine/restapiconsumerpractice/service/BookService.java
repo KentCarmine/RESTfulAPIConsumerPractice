@@ -3,6 +3,7 @@ package com.kentcarmine.restapiconsumerpractice.service;
 import com.kentcarmine.restapiconsumerpractice.dto.BookDto;
 import com.kentcarmine.restapiconsumerpractice.dto.CreateOrUpdateBookDto;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 public interface BookService {
@@ -15,9 +16,9 @@ public interface BookService {
 
     BookDto getBookById(Long id);
 
-    BookDto createNewBook(CreateOrUpdateBookDto createOrUpdateBookDto);
+    BookDto createNewBook(@Valid CreateOrUpdateBookDto createOrUpdateBookDto);
 
     BookDto deleteBookById(Long id);
 
-    BookDto updateBookWithId(Long id, CreateOrUpdateBookDto bookDto);
+    BookDto updateBookWithId(Long id, @Valid CreateOrUpdateBookDto bookDto);
 }
